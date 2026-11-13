@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sieve</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+
+  <header>
+    <span class="logo">▤</span>
+    <span class="title">SIEVE</span>
+    <button class="cog-btn" id="cog-btn" aria-label="settings">⚙</button>
+  </header>
+
+  <div id="settings-panel" class="settings-panel" style="display:none">
+    <span class="section-label">THEME</span>
+    <div class="theme-grid" id="theme-list"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="chords">[CHORDS]</button>
+    <button class="tab" data-tab="history">[HISTORY]</button>
+  </div>
+
+  <!-- ── Chords tab ─────────────────────────────────────── -->
+  <div class="tab-pane active" id="tab-chords">
+
+    <div class="controls">
+      <button id="btn-start">[ capture ]</button>
+      <button id="btn-stop" disabled>[ stop ]</button>
+    </div>
+
+    <div class="status-row">
+      <div id="status" class="status">idle</div>
+      <span id="timer-text" class="timer-text"></span>
+    </div>
+    <div class="timer-track" id="timer-track" style="display:none">
+      <div class="timer-fill" id="timer-fill"></div>
+    </div>
+
+    <div class="canvas-wrap">
+      <canvas id="bh-canvas"></canvas>
+    </div>
+    <div class="conf-track" id="conf-track">
+      <div class="conf-fill" id="conf-fill"></div>
+    </div>
+    <div class="chord-hold" id="chord-hold" style="display:none"></div>
+
+    <div class="row-spaced">
+      <div class="key-row">
+        <span class="section-label">Key</span>
+        <span id="key-name">—</span>
+        <button class="acc-toggle" id="acc-toggle" title="sharps / flats">#</button>
+      </div>
+      <div class="window-picker">
+        <span class="section-label">Window</span>
+        <label><input type="radio" name="win" value="10" checked> 10s</label>
+        <label><input type="radio" name="win" value="20"> 20s</label>
+        <label><input type="radio" name="win" value="30"> 30s</label>
+        <label><input type="radio" name="win" value="inf"> ∞</label>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="sec-header" data-target="sec-piano">
+      <span class="section-label">Notes</span>
+      <button class="collapse-btn" aria-label="toggle"></button>
+    </div>
+    <div id="sec-piano" class="sec-body">
+      <div class="piano-keys" id="piano-keys"></div>
+    </div>
+
+    <!-- Top chords -->
+    <div class="sec-header" data-target="sec-top-chords">
+      <span class="section-label">Top chords</span>
+      <button class="collapse-btn" aria-label="toggle"></button>
+    </div>
+    <div id="sec-top-chords" class="sec-body">
+      <div id="top-chords" class="top-chords">
+        <div class="top-chord-empty">Start capturing to see analysis</div>
+      </div>
+    </div>
+
+    <!-- Progression -->
+    <div class="sec-header" data-target="sec-progression">
+      <span class="section-label">Progression</span>
+      <div class="sec-header-right">
+        <button class="copy-btn" id="copy-prog" title="copy progression">[cp]</button>
+        <button class="collapse-btn" aria-label="toggle"></button>
+      </div>
+    </div>
+    <div id="sec-progression" class="sec-body">
+      <div id="progression" class="progression">—</div>
+    </div>
+
+  </div>
+
+  <!-- ── History tab ────────────────────────────────────── -->
+  <div class="tab-pane" id="tab-history">
+    <input type="text" id="history-search" class="history-search" placeholder="search…" autocomplete="off">
+    <div id="history-list" class="history-list">
+      <div class="history-empty">No sessions recorded yet</div>
+    </div>
+    <button id="btn-clear-history" class="btn-clear" style="margin-top:14px">Clear history</button>
+  </div>
+
+  <!-- ── Capture results overlay (shown when session ends) ── -->
+  <div id="capture-results" class="capture-results" style="display:none">
+    <div class="results-card">
+      <img id="res-thumb" class="res-thumb" src="" alt="" style="display:none">
+      <div class="res-body">
+        <div class="res-label">Session complete</div>
+        <div class="res-title" id="res-title" style="display:none"></div>
+        <div class="res-dur" id="res-dur">0:00</div>
+        <div class="res-key" id="res-key">—</div>
+        <div class="res-divider"></div>
+        <div class="res-section">
+          <div class="res-sublabel">Top chords</div>
+          <div class="res-chords" id="res-chords">—</div>
+        </div>
+        <div class="res-section">
+          <div class="res-sublabel">Progression</div>
+          <div class="res-prog" id="res-prog">—</div>
+        </div>
+        <div class="res-fmt-picker" id="res-fmt-picker" style="display:none">
+          <label><input type="radio" name="res-fmt" value="mp3" checked> MP3</label>
+          <label><input type="radio" name="res-fmt" value="wav"> WAV</label>
+          <label><input type="radio" name="res-fmt" value="webm"> WebM</label>
+        </div>
+        <div class="res-actions">
+          <button id="btn-copy-summary" class="res-dl">[ copy ]</button>
+          <button id="btn-results-dl" class="res-dl" style="display:none">[ download ]</button>
+          <button id="btn-results-ok" class="res-ok">[ done ]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chord-tooltip" class="chord-tooltip"></div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
